@@ -16,19 +16,19 @@ func getTotal(list [4]Product) (int, int) {
 		item := list[i]
 		total += item.price
 
-		if item.name != ""{
-			totalItem ++
+		if item.name != "" {
+			totalItem++
 		}
 	}
 	return total, totalItem
 }
 
 func printListInfo(list [4]Product) {
-	totalCost, totalItems := getTotal(list);
-	fmt.Println("the total number of items", totalItems);
+	totalCost, totalItems := getTotal(list)
+	fmt.Println("the total number of items", totalItems)
 	fmt.Println("the total cost of the shopping list is", totalCost)
 	fmt.Println("the last item on the list", list[len(list)-1])
-	
+
 }
 
 func main() {
@@ -37,9 +37,9 @@ func main() {
 		{name: "onions", price: 9},
 		{name: "potatoes", price: 15},
 	}
-	printListInfo(Product);
+	printListInfo(Product)
 
-	Product[3].name = "rice";
-	Product[3].price = 30;
+	Product[3].name = "rice"
+	Product[3].price = 30
 	printListInfo(Product)
 }
