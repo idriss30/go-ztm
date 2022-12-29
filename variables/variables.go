@@ -16,9 +16,8 @@ func main() {
 
 	//with comma ok variable the second variable can be reassigned
 	firstVariable, otherVariable := "john", "doe"
-	secondVariable, otherVariable := "joe", "dalton"
-
 	fmt.Println("firstVariable is", firstVariable, "otherVariable is", otherVariable)
-	fmt.Println("secondVariable is", secondVariable)
+	secondVariable, otherVariable := "joe", "dalton"
+	fmt.Println("secondVariable is", secondVariable, "secondVariable  reassignment is", otherVariable)
 
 }
