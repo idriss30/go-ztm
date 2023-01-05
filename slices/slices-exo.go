@@ -17,7 +17,7 @@ func printStringWordsWithRange() {
 		fmt.Printf("the word is %v and the index is %v\n", element, index)
 
 		for _, character := range element {
-			fmt.Printf("the character is %q\n", character) // if not adding the %q it will print the bite number of the rune and not the actual letter
+			fmt.Printf("the character is %q\n", character) // if not adding the %q it will not print the gliph or letter/rune representation but the byte
 		}
 	}
 }
