@@ -29,30 +29,28 @@ const (
 	Div
 )
 
-
 type Operation int
 
-func (operation Operation) calculate(number1, number2 int) int{
-   switch operation {
-   case Add:
-	  return  number1 + number2
+func (operation Operation) calculate(number1, number2 int) int {
+	switch operation {
+	case Add:
+		return number1 + number2
 
-   case Sub:
-	return number1 - number2
-   case Mul:
-	return number1 * number2
-   case Div:
-	return number1 / number2
-   }
-   panic("unhandle operation")
+	case Sub:
+		return number1 - number2
+	case Mul:
+		return number1 * number2
+	case Div:
+		return number1 / number2
+	}
+	panic("unhandle operation")
 }
 
-
 func main() {
-	add:= Operation(Add)
-	sub:= Operation(Sub)
-	mul:= Operation(Mul)
-	div:= Operation(Div)
+	add := Operation(Add)
+	sub := Operation(Sub)
+	mul := Operation(Mul)
+	div := Operation(Div)
 	fmt.Println(add.calculate(2, 2)) // = 4
 
 	fmt.Println(sub.calculate(10, 3)) // = 7
