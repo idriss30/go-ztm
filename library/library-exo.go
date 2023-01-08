@@ -24,140 +24,134 @@ import (
 	"time"
 )
 
-
-type Title string;
-type Name string;
+type Title string
+type Name string
 
 type LendedCheck struct {
-	checkout time.Time;
-	checkIn time.Time
+	checkout time.Time
+	checkIn  time.Time
 }
 type Members struct {
-	name Name;
+	name  Name
 	books map[Title]LendedCheck
-
 }
 
 type BookEntry struct {
-	total int;
-	lended int;
+	total  int
+	lended int
 }
 
 type Library struct {
 	members map[Name]Members
-	books map[Title]BookEntry
+	books   map[Title]BookEntry
 }
 
-func printMemberAudit(member *Members){
-	for title, audit := range member.books{
-	   var returnTime string;
-	   if audit.checkIn.IsZero(){
-		returnTime = "[not returned yet]"
-	   }else{
-		returnTime = audit.checkIn.String()
-	   }
-	   fmt.Println(member.name, ":", title, ":", audit.checkout.String(), "through", returnTime)
+func printMemberAudit(member *Members) {
+	for title, audit := range member.books {
+		var returnTime string
+		if audit.checkIn.IsZero() {
+			returnTime = "[not returned yet]"
+		} else {
+			returnTime = audit.checkIn.String()
+		}
+		fmt.Println(member.name, ":", title, ":", audit.checkout.String(), "through", returnTime)
 	}
 
 }
 
-func printMemberFunctionValue(library *Library){
-	for _, member := range library.members{
+func printMemberFunctionValue(library *Library) {
+	for _, member := range library.members {
 		printMemberAudit(&member)
 	}
 
 }
 
-
-func printLibraryBooks(library *Library){
+func printLibraryBooks(library *Library) {
 	fmt.Println("#############")
-	for title, book := range library.books{
+	for title, book := range library.books {
 		fmt.Println(title, "/ total:", book.total, "/ lended:", book.lended)
 	}
 	fmt.Println("###############")
 }
 
-func checkoutBook(library *Library, title Title, member *Members)bool{
-	book, found:= library.books[title]
-	if !found{
+func checkoutBook(library *Library, title Title, member *Members) bool {
+	book, found := library.books[title]
+	if !found {
 		fmt.Println(("book not part of library"))
 		return false
 	}
-	if book.lended == book.total{
-		fmt.Println("there is no books available to lend");
-		return false;
+	if book.lended == book.total {
+		fmt.Println("there is no books available to lend")
+		return false
 	}
-	book.lended += 1;
-	library.books[title] = book;
-	member.books[title] = LendedCheck{checkout:time.Now()}
-	return  true
+	book.lended += 1
+	library.books[title] = book
+	member.books[title] = LendedCheck{checkout: time.Now()}
+	return true
 }
 
-func returnBook(library *Library, title Title, member *Members)bool{
-	book, found:= library.books[title]
-	if !found{
+func returnBook(library *Library, title Title, member *Members) bool {
+	book, found := library.books[title]
+	if !found {
 		fmt.Println(("book not part of library"))
 		return false
 	}
 	audit, found := member.books[title]
-	if !found{
+	if !found {
 		fmt.Println("Member did not check out this book")
 		return false
 	}
-	book.lended -=1;
-	library.books[title] = book;
+	book.lended -= 1
+	library.books[title] = book
 
 	audit.checkIn = time.Now()
-	member.books[title] = audit;
+	member.books[title] = audit
 	return true
-	
 
 }
 
- 
-
-func main(){
+func main() {
 	library := Library{
-		books:make(map[Title]BookEntry),
+		books:   make(map[Title]BookEntry),
 		members: make(map[Name]Members),
 	}
 
 	library.books["Webapp in Go"] = BookEntry{
-		total:4,
+		total:  4,
 		lended: 0,
 	}
 	library.books["the little Go book"] = BookEntry{
-		total:3,
+		total:  3,
 		lended: 0,
 	}
 
-	library.books["Idiomatic book"] = BookEntry{
-		total:6,
+	library.books["Idiomatic Go"] = BookEntry{
+		total:  6,
 		lended: 0,
 	}
 	library.books["Go bootcamp"] = BookEntry{
-		total:2,
+		total:  2,
 		lended: 0,
 	}
 
 	library.members["joe"] = Members{"Joe", make(map[Title]LendedCheck)}
 	library.members["dalton"] = Members{"dalton", make(map[Title]LendedCheck)}
-    
-	fmt.Println("\nInitial:")
-	printLibraryBooks(&library);
-	printMemberFunctionValue(&library);
 
-	member:= library.members["dalton"];
-	checkedOut := checkoutBook(&library, "Idiomatic book", &member);
-	fmt.Println("\n Check out a book");
+	fmt.Println("\nInitial:")
+	printLibraryBooks(&library)
+	printMemberFunctionValue(&library)
+
+	member := library.members["dalton"]
+	checkedOut := checkoutBook(&library, "Idiomatic Go", &member)
+	fmt.Println("\n Check out a book")
 	if checkedOut {
-		printLibraryBooks(&library);
-		printMemberAudit(&member);
+		printLibraryBooks(&library)
+		printMemberFunctionValue(&library)
 	}
-	returned:= returnBook(&library, "Go bootcamp", &member);
+	returned := returnBook(&library, "Idiomatic Go", &member)
 	fmt.Println("\n Check in a book:")
 	if returned {
-
-
+		printLibraryBooks(&library)
+		printMemberFunctionValue(&library)
 	}
 }
