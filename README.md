@@ -1,4 +1,4 @@
-# go-ztm
+# Go practice
 
 # Practicing Go by solving some exercises
 # How to run exercises ?
